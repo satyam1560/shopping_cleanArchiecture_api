@@ -8,8 +8,8 @@ part 'products_event.dart';
 part 'products_state.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductState> {
-  GetProducts getProducts;
-  ProductsBloc(this.getProducts) : super(ProductState.initial()) {
+  final GetProducts getProducts;
+  ProductsBloc({required this.getProducts}) : super(ProductState.initial()) {
     on<ProductsFetched>(_onProductsFetched);
   }
   Future<void> _onProductsFetched(

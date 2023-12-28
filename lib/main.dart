@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'features/display_products/data/datasources/product_datasource.dart';
-import 'features/display_products/data/repositories/product_repository_impl.dart';
-import 'features/display_products/domain/usecases/get_products.dart';
-import 'features/display_products/presentation/bloc/products_bloc.dart';
 import 'features/display_products/presentation/pages/product_display_screen.dart';
+import 'injection.dart' as di;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.productInstanceInit();
   runApp(const MyApp());
 }
 
@@ -16,23 +14,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProductsBloc(
-        GetProducts(
-          repository: ProductRepositoryImpl(
-            productDataSource: ProductDataSource(),
-          ),
-        ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Shopping Api',
+      theme: ThemeData(
+        useMaterial3: true,
       ),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Shopping Api',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: const ProductDisplayScreen(),
-      ),
+      home: const ProductDisplayScreen(),
     );
   }
 }
