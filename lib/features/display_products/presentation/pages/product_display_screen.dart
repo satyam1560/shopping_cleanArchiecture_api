@@ -5,6 +5,7 @@ import 'package:shopping_api/features/display_products/presentation/pages/detail
 import 'package:shopping_api/features/display_products/presentation/widgets/error_widget.dart';
 import 'package:shopping_api/features/display_products/presentation/widgets/loading_widget.dart';
 import 'package:shopping_api/features/display_products/presentation/widgets/product_card.dart';
+import 'package:shopping_api/injection.dart';
 
 class ProductDisplayScreen extends StatefulWidget {
   const ProductDisplayScreen({super.key});
@@ -14,9 +15,12 @@ class ProductDisplayScreen extends StatefulWidget {
 }
 
 class _ProductDisplayScreenState extends State<ProductDisplayScreen> {
+  final _productBloc = sl<ProductsBloc>();
+
   @override
   void initState() {
-    BlocProvider.of<ProductsBloc>(context).add(ProductsFetched());
+    // BlocProvider.of<ProductsBloc>(context).add(ProductsFetched());
+    _productBloc.add(ProductsFetched());
     super.initState();
   }
 
@@ -38,6 +42,7 @@ class _ProductDisplayScreenState extends State<ProductDisplayScreen> {
         centerTitle: true,
       ),
       body: BlocBuilder<ProductsBloc, ProductState>(
+        bloc: _productBloc,
         builder: (context, state) {
           if (state.status == ProductStatus.loading) {
             return const ProductLoadingWidget();
